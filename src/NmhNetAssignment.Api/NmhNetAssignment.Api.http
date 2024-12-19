@@ -1,0 +1,31 @@
+﻿@NmhNetAssignment.Api_HostAddress = https://localhost:60158
+@keyValue=string
+
+###
+POST {{NmhNetAssignment.Api_HostAddress}}/calculation/22
+Content-Type: application/json
+
+{  
+  "input": 3
+}
+
+###
+POST {{NmhNetAssignment.Api_HostAddress}}/test/key-value-storage/store
+Content-Type: application/json
+
+{
+  "key": "{{keyValue}}",
+  "value": "string"
+}
+
+###
+GET {{NmhNetAssignment.Api_HostAddress}}/test/key-value-storage/retrieve/{{keyValue}}
+
+###
+POST {{NmhNetAssignment.Api_HostAddress}}/test/rabbit-mq/publish
+Content-Type: application/json
+
+{
+  "message": "{{keyValue}}",
+  "queueName": "calculation-queue"
+}

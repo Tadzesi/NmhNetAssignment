@@ -1,0 +1,68 @@
+services:
+
+  # Web API Application
+  nmhnetassignment.api:
+    container_name: nmhnetassignment.api
+    image: ${DOCKER_REGISTRY-}nmhnetassignmentapi
+    build:
+      context: .
+      dockerfile: NmhNetAssignment.Api/Dockerfile     
+    depends_on:
+      - nmhnetassignment.postgres
+      - nmhnetassignment.rabbitmq
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development      
+      - ConnectionStrings__DefaultConnection=Host=nmhnetassignment.postgres;Port=5432;Database=nmhnetdb;Username=postgres;Password=postgres
+      - RabbitMQ__HostName=nmhnetassignment.rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=guest
+      - RabbitMQ__Password=guest    
+      - RabbitMQ__QueueName=demo-queue
+    networks:
+      - app-network
+
+  # PostgreSQL Database
+  nmhnetassignment.postgres:
+    container_name: nmhnetassignment.postgres
+    image: postgres:14.15-alpine3.21
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=nmhnetdb
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    volumes:
+      - ./.containers/postgress-data:/var/lib/postgresql/data   
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ Message Broker
+  nmhnetassignment.rabbitmq:
+    container_name: nmhnetassignment.rabbitmq
+    image: rabbitmq:3.12-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - ./.containers/rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+
+# Network configuration
+networks:
+  app-network:
+    driver: bridge
