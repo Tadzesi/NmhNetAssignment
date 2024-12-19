@@ -10,23 +10,10 @@ using NmhNetAssignment.Application.Requests;
 [Route("calculation")]
 public class CalculationController : ControllerBase
 {
-    private readonly IRabbitMqService _rabbitMqService;
-    private readonly IKeyValueStorageService _keyValueStorageService;
-    private readonly IConfiguration _configuration;
-    private readonly ICalculationService _calculationService;
     private readonly IMediator _mediator;
 
-    public CalculationController(
-        IRabbitMqService rabbitMqService,
-        IKeyValueStorageService keyValueStorageService,
-        IConfiguration configuration,
-        ICalculationService calculationService,
-        IMediator mediator)
-    {
-        _rabbitMqService = rabbitMqService;
-        _keyValueStorageService = keyValueStorageService;
-        _configuration = configuration;
-        _calculationService = calculationService;
+    public CalculationController(IMediator mediator)
+    { 
         _mediator = mediator;
     }
 
