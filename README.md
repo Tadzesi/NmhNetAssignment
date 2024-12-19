@@ -105,6 +105,7 @@ The solution includes:
 3. RabbitMQ integration
 4. Background service for message processing
 5. Docker configuration files
+6. Implemted FluentValidation and MediatR in CalculationController
 
 ## Input Validation
 
