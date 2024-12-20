@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NmhNetAssignment.Domain;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NmhNetAssignment.Domain.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220045301_Fixed migration")]
+    partial class Fixedmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,12 +37,18 @@ namespace NmhNetAssignment.Domain.Migrations
 
                     b.HasIndex("AuthorsId");
 
-                    b.ToTable("ArticleAuthors", (string)null);
+                    b.ToTable("ArticleAuthor");
                 });
 
             modelBuilder.Entity("NmhNetAssignment.Domain.Entities.Article", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<long?>("SiteId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Title")
@@ -47,6 +56,8 @@ namespace NmhNetAssignment.Domain.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SiteId");
 
                     b.HasIndex("Title");
 
@@ -56,7 +67,10 @@ namespace NmhNetAssignment.Domain.Migrations
             modelBuilder.Entity("NmhNetAssignment.Domain.Entities.Author", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -73,10 +87,7 @@ namespace NmhNetAssignment.Domain.Migrations
             modelBuilder.Entity("NmhNetAssignment.Domain.Entities.Image", b =>
                 {
                     b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -122,21 +133,22 @@ namespace NmhNetAssignment.Domain.Migrations
                 {
                     b.HasOne("NmhNetAssignment.Domain.Entities.Site", "Site")
                         .WithMany()
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SiteId");
 
                     b.Navigation("Site");
                 });
 
-            modelBuilder.Entity("NmhNetAssignment.Domain.Entities.Author", b =>
+            modelBuilder.Entity("NmhNetAssignment.Domain.Entities.Image", b =>
                 {
-                    b.HasOne("NmhNetAssignment.Domain.Entities.Image", "Image")
-                        .WithOne()
-                        .HasForeignKey("NmhNetAssignment.Domain.Entities.Author", "Id")
+                    b.HasOne("NmhNetAssignment.Domain.Entities.Author", null)
+                        .WithOne("Image")
+                        .HasForeignKey("NmhNetAssignment.Domain.Entities.Image", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("NmhNetAssignment.Domain.Entities.Author", b =>
+                {
                     b.Navigation("Image");
                 });
 #pragma warning restore 612, 618

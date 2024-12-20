@@ -4,6 +4,7 @@ using Moq;
 using NmhNetAssignment.Application.Requests;
 using NmhNetAssignment.Application.Responses;
 
+namespace NmhNetAssignment.Api.Tests;
 public class CalculationControllerTests
 {
     private readonly Mock<IMediator> _mediatorMock;

@@ -14,45 +14,41 @@ namespace NmhNetAssignment.Domain
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Author configuration
+            // Author Configuration
             modelBuilder.Entity<Author>(entity =>
             {
                 entity.HasKey(a => a.Id);
-                entity.Property(a => a.Name).IsRequired();
                 entity.HasIndex(a => a.Name).IsUnique();
-
                 entity.HasOne(a => a.Image)
-                       .WithOne()
-                       .HasForeignKey<Image>(i => i.Id);
+                      .WithOne()
+                      .HasForeignKey<Author>(a => a.Id);
             });
 
-            // Article configuration
+            // Article Configuration
             modelBuilder.Entity<Article>(entity =>
             {
                 entity.HasKey(a => a.Id);
                 entity.HasIndex(a => a.Title);
-
-                entity.HasMany(a => a.Authors) // Many-To-Many relationship
-                      .WithMany(); // Configure the join table automatically
+                entity.HasMany(a => a.Authors)
+                      .WithMany()
+                      .UsingEntity(j => j.ToTable("ArticleAuthors"));
 
                 entity.HasOne(a => a.Site)
                       .WithMany()
-                      .HasForeignKey(a => a.SiteId) // Specify foreign key property
-                      .IsRequired(false);
+                      .HasForeignKey(a => a.Id);
             });
 
-            // Site configuration
+            // Site Configuration
             modelBuilder.Entity<Site>(entity =>
             {
                 entity.HasKey(s => s.Id);
                 entity.Property(s => s.CreatedAt).IsRequired();
             });
 
-            // Image configuration
+            // Image Configuration
             modelBuilder.Entity<Image>(entity =>
             {
                 entity.HasKey(i => i.Id);
-                entity.Property(i => i.Description).IsRequired();
             });
 
             base.OnModelCreating(modelBuilder);

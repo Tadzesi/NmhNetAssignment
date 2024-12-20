@@ -6,4 +6,4 @@
 - dotnet ef database update -p NmhNetAssignment.Domain/NmhNetAssignment.Domain.csproj -s NmhNetAssignment.Api/NmhNetAssignment.Api.csproj
 
 **Create new migration**
-- dotnet ef migrations add '\<MigrationName>' NmhNetAssignment.Domain/NmhNetAssignment.Domain.csproj -s NmhNetAssignment.Api/NmhNetAssignment.Api.csproj
+- dotnet ef migrations add '<MigrationName>' -p NmhNetAssignment.Domain/NmhNetAssignment.Domain.csproj -s NmhNetAssignment.Api/NmhNetAssignment.Api.csproj
