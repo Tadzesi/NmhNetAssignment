@@ -120,3 +120,63 @@ The application includes appropriate input validation for:
 - Storage is in-memory only and not persisted
 - Database migrations are applied automatically on application startup
 - No CRUD operations implementation is required for the database models
+
+## TODO Improvemnt
+
+- The key-value storage is implemented using native .NET capabilities
+- Storage is in-memory only and not persisted
+- Database migrations are applied automatically on application startup
+- No CRUD operations implementation is required for the database models
+
+
+## Areas for Improvement
+
+### **1. Docker Configuration**
+   - Ensure `docker-compose.override.yml` and `Dockerfile` configurations handle environment variables securely.
+   - Provide better separation for development and production settings.
+
+### **2. Error Handling**
+   - Add centralized exception handling middleware in the API to log and format error responses.
+   - Improve error handling in services such as:
+     - `CalculationService`: Handle invalid inputs or edge cases in mathematical operations.
+     - `RabbitMqService`: Add robust handling for connection failures or serialization errors.
+   - Use `ILogger` to log exceptions with sufficient context for debugging.
+
+### **3. Validation**
+   - Enhance validation for keys and values in `KeyValueStorageService`.
+   - Add more extensive validation rules in FluentValidation for inputs beyond basic constraints.
+
+### **4. Test Coverage**
+   - Expand tests to cover services, including:
+     - `RabbitMqService`
+     - `CalculationService`
+     - `KeyValueStorageService`
+   - Add integration tests to ensure end-to-end functionality of the API.
+
+### **5. Code Quality**
+   - Refactor repeated patterns (e.g., RabbitMQ queue declaration) into reusable utility methods.
+   - Consolidate database migrations to remove redundant or unused entries.
+
+### **6. Logging**
+   - Use structured logging with context (e.g., method names, input values).
+   - Ensure consistent logging levels (e.g., `Error` for exceptions, `Information` for routine events).
+
+### **7. Unused or Redundant Code**
+   - Remove empty or unused files such as `Program.cs` in the `Application` project.
+   - Evaluate the necessity of interfaces like `ICalculationResult` and `IStorageEntry`.
+
+### **8. API Design**
+   - Ensure all controllers and endpoints return meaningful HTTP status codes.
+   - Use standard conventions for route definitions.
+
+### **9. Documentation**
+   - Extend the README with:
+     - Detailed setup instructions.
+     - Explanation of configurations for different environments (e.g., local, development, production).
+     - Examples of API usage with sample requests and responses.
+
+### **10. Performance Optimization**
+   - Assess memory usage of `ConcurrentDictionary` in `KeyValueStorageService` for scalability.
+   - Optimize database schema for indexing and normalization where necessary.
+
+
