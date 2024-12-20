@@ -121,14 +121,6 @@ The application includes appropriate input validation for:
 - Database migrations are applied automatically on application startup
 - No CRUD operations implementation is required for the database models
 
-## TODO Improvemnt
-
-- The key-value storage is implemented using native .NET capabilities
-- Storage is in-memory only and not persisted
-- Database migrations are applied automatically on application startup
-- No CRUD operations implementation is required for the database models
-
-
 ## Areas for Improvement
 
 ### **1. Docker Configuration**
