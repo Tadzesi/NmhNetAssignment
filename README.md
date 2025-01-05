@@ -1,4 +1,4 @@
-# .NET Senior Developer Task
+# .NET Developer Task
 
 A Web API application demonstrating key-value storage, RabbitMQ integration, and Entity Framework Core configuration.
 
