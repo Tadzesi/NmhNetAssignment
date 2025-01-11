@@ -4,7 +4,7 @@ namespace NmhNetAssignment.Infrastructure.Models
 {
     public class StorageEntry : IStorageEntry
     {
-        public decimal Value { get; set; } = default;
-        public DateTime LastUpdated { get; set; } = default;
+        public decimal Value { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace NmhNetAssignment.Infrastructure.Services
                 _configuration["RabbitMQ:QueueName"]!,
                 async (message) =>
                 {
-                    _logger.LogInformation($"Received message: {message}");
+                    _logger.LogInformation("Received message: {Message}", message);
                     // Process message as needed
                     await Task.CompletedTask;
                 },

@@ -29,7 +29,7 @@ namespace NmhNetAssignment.Infrastructure.Services
             };
         }
 
-        private decimal ComputeValue(decimal input, decimal previousValue, IStorageEntry entry)
+        private static decimal ComputeValue(decimal input, decimal previousValue, IStorageEntry entry)
         {
             if (IsExpired(entry))
             {
@@ -41,7 +41,7 @@ namespace NmhNetAssignment.Infrastructure.Services
             return calculatedValue;
         }
 
-        private bool IsExpired(IStorageEntry entry)
+        private static bool IsExpired(IStorageEntry entry)
         {
             return DateTime.UtcNow.Subtract(entry.LastUpdated).TotalSeconds > 15;
         }
