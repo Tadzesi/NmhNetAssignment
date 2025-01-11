@@ -2,8 +2,8 @@ services:
 
   # Web API Application
   nmhnetassignment.api:
-    container_name: nmhnetassignment.api
-    image: ${DOCKER_REGISTRY-}nmhnetassignmentapi
+    container_name: nmhnetassignment-api
+    image: ${DOCKER_REGISTRY-}nmhnetassignment-api
     build:
       context: .
       dockerfile: NmhNetAssignment.Api/Dockerfile     
@@ -23,7 +23,7 @@ services:
 
   # PostgreSQL Database
   nmhnetassignment.postgres:
-    container_name: nmhnetassignment.postgres
+    container_name: nmhnetassignment-postgres
     image: postgres:14.15-alpine3.21
     ports:
       - "5432:5432"
@@ -43,7 +43,7 @@ services:
 
   # RabbitMQ Message Broker
   nmhnetassignment.rabbitmq:
-    container_name: nmhnetassignment.rabbitmq
+    container_name: nmhnetassignment-rabbitmq
     image: rabbitmq:3.12-management-alpine
     ports:
       - "5672:5672"

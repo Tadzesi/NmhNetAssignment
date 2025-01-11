@@ -11,20 +11,24 @@ namespace NmhNetAssignment.Infrastructure.Services
 
         public bool TryGetValue<T>(int key, [NotNullWhen(true)] out T? value)
         {
-            if (_storage.TryGetValue(key, out var entry))
+            if (IsValidEntry<T>(key, out var typedValue))
             {
-                // Check for expiration
-                if (entry.LastUpdated > DateTime.UtcNow)
-                {
-                    if (entry.Value is T typedValue)
-                    {
-                        value = typedValue;
-                        return true;
-                    }
-                }
+                value = typedValue;
+                return true;
+            }
 
-                // Remove expired entry
-                _storage.TryRemove(key, out _);
+            // Remove expired entry
+            _storage.TryRemove(key, out _);
+            value = default;
+            return false;
+        }
+
+        private bool IsValidEntry<T>(int key, [NotNullWhen(true)] out T? value)
+        {
+            if (_storage.TryGetValue(key, out var entry) && entry.LastUpdated > DateTime.UtcNow && entry.Value is T typedValue)
+            {
+                value = typedValue;
+                return true;
             }
 
             value = default;

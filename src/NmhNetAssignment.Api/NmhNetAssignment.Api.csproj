@@ -20,5 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\NmhNetAssignment.Domain\NmhNetAssignment.Domain.csproj" />
     <ProjectReference Include="..\NmhNetAssignment.Infrastructure\NmhNetAssignment.Infrastructure.csproj" />
+    <ProjectReference Include="..\NmhNetAssignment.ServiceDefaults\NmhNetAssignment.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

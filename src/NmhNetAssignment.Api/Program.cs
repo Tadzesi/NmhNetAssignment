@@ -9,6 +9,8 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -34,6 +36,9 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(typeof(NmhNetAssignment.Application.Program).Assembly);
 
+
+var dbConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Configure Database
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -52,6 +57,8 @@ builder.Services.AddSingleton<ICalculationService, CalculationService>();
 builder.Services.AddHostedService<MessageConsumerBackgroundService>();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

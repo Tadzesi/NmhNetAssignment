@@ -45,6 +45,8 @@ namespace NmhNetAssignment.Api.Controllers
         /// <param name="key"></param>
         /// <returns></returns>
         [HttpGet("retrieve/{key:int}")]
+        [ProducesResponseType(typeof(object), 200)]
+        [ProducesResponseType(404)]
         public IActionResult RetrieveValue(int key)
         {
             if (_keyValueStorageService.TryGetValue(key, out object? value))
